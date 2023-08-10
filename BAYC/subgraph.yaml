@@ -1,0 +1,28 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+features:
+  - ipfsOnEthereumContracts
+dataSources:
+  - kind: ethereum
+    name: BAYC
+    network: mainnet
+    source:
+      address: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
+      abi: BAYC
+      startBlock: 12287507
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+        - BoredApe
+        - Property
+      abis:
+        - name: BAYC
+          file: ./abis/BAYC.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/bayc.ts

@@ -1,0 +1,28 @@
+type Transfer @entity(immutable: true) {
+  id: Bytes!
+  from: Bytes!
+  to: Bytes!
+  tokenId: BigInt!
+  blockNumber: BigInt!
+  transactionHash: Bytes!
+}
+
+type BoredApe @entity {
+  id: ID!
+  creator: Bytes!
+  newOwner: Bytes!
+  tokenURI: String!
+  blockNumber: BigInt!
+}
+
+type Property @entity {
+  id: ID!
+  image: String
+  background: String
+  clothes: String
+  earring: String
+  eyes: String
+  fur: String
+  hat: String
+  mouth: String
+}
