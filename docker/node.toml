@@ -1,0 +1,27 @@
+[store.primary]
+  connection = "postgresql://postgres:let-me-in@postgres/subgraph?sslmode=prefer"
+  weight = 1
+  pool_size = 10
+
+[chains]
+  ingestor = "index_node"
+  [chains.mainnet]
+    shard = "primary"
+    [[chains.mainnet.provider]]
+      label = "mainnet"
+      url = "https://ethereum-mainnet.s.chainbase.online/v1/xxx"
+      features = ["archive","traces"]
+      transport = "rpc"
+
+  [chains.base]
+    shard = "primary"
+    [[chains.base.provider]]
+      label = "base"
+      url = "https://base-mainnet.s.chainbase.com/v1/xxx"
+      features = ["archive","traces"]
+      transport = "rpc"
+
+[deployment]
+[[deployment.rule]]
+  shard = "primary"
+  indexers = [ "index_node" ]
