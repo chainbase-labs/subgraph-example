@@ -1,0 +1,34 @@
+type Protocol @entity {
+  id: ID!
+  userCount: Int!
+  protocolRevenue: BigDecimal!
+  accountRevenue: BigDecimal!
+  tradeVolume: BigDecimal!
+  totalTrades: Int!
+}
+
+type Account @entity {
+  id: ID!
+  holdersCount: Int!
+  keySupply: BigDecimal!
+  holders: [Holder!]! @derivedFrom(field: "account")
+}
+
+type Holder @entity {
+  id: ID!
+  account: Account!
+  keysOwned: BigDecimal!
+}
+
+type Trade @entity {
+  id: ID!
+  trader: Bytes!
+  subject: Bytes!
+  isBuy: Boolean!
+  shareAmount: BigDecimal!
+  ethAmount: BigDecimal!
+  protocolEthAmount: BigDecimal!
+  subjectEthAmount: BigDecimal!
+  supply: BigDecimal!
+}
+

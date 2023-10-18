@@ -1,0 +1,21 @@
+{
+  "name": "friend-tech",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ friend-tech",
+    "create-local": "graph create --node http://localhost:8020/ friend-tech",
+    "remove-local": "graph remove --node http://localhost:8020/ friend-tech",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 friend-tech",
+    "test": "graph test"
+  },
+  "resolutions": {
+    "concat-stream": "https://github.com/chainbase-labs/concat-stream#1.4.x"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.43.0",
+    "@graphprotocol/graph-ts": "0.29.1"
+  },
+  "devDependencies": { "matchstick-as": "0.5.0" }
+}
