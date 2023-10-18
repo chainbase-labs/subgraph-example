@@ -9,7 +9,7 @@
     shard = "primary"
     [[chains.mainnet.provider]]
       label = "mainnet"
-      url = "https://ethereum-mainnet.s.chainbase.online/v1/2HqFCvWrAZNsR2PhiUVkmZATuI1"
+      url = "https://ethereum-mainnet.s.chainbase.online/v1/xxx"
       features = ["archive","traces"]
       transport = "rpc"
 
@@ -17,7 +17,7 @@
     shard = "primary"
     [[chains.base.provider]]
       label = "base"
-      url = "https://base-mainnet.s.chainbase.com/v1/2HqFCvWrAZNsR2PhiUVkmZATuI1"
+      url = "https://base-mainnet.s.chainbase.com/v1/xxx"
       features = ["archive","traces"]
       transport = "rpc"
 
