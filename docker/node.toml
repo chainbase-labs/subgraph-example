@@ -9,7 +9,8 @@
     shard = "primary"
     [[chains.mainnet.provider]]
       label = "mainnet"
-      url = "https://ethereum-mainnet.s.chainbase.online/v1/xxx"
+      # 这里需要替换成自己的api-key
+      url = "https://ethereum-mainnet.s.chainbase.online/v1/<api-key>"
       features = ["archive","traces"]
       transport = "rpc"
 
@@ -17,7 +18,8 @@
     shard = "primary"
     [[chains.base.provider]]
       label = "base"
-      url = "https://base-mainnet.s.chainbase.com/v1/xxx"
+      # 这里需要替换成自己的api-key
+      url = "https://base-mainnet.s.chainbase.com/v1/<api-key>"
       features = ["archive","traces"]
       transport = "rpc"
 
