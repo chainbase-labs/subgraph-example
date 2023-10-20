@@ -293,8 +293,12 @@ Build completed: build/subgraph.yaml
    启动我们的本地docker实例（注意修改node.toml中的rpc地址，需要api key，如果没有可以到chainbase后台创建）
 
 ```bash
-➜  docker git:(main) ✗ docker-compose up
+➜  cd docker
+➜  vim node.toml(*修改RPC地址*)
+➜  cd docker-compose up
 ```
+部署成功后，我们稍等几分钟，本都数据库中应该就有我们的索引数据了
+![img.png](friend-tech/imgs/img_11.png)
 
 使用另外一个终端，部署我们的子图
 ```bash
@@ -303,4 +307,8 @@ yarn create-local
 yarn deploy-local 
 ```
 
-部署成功后，可以在 http://localhost:8000/subgraphs/name/yourname/yoursubgraphname/graphql 中看到我们的子图的graphql接口
+部署成功后，可以在docker运行日志里面看到我们新部署的子图deployment_id
+![img.png](friend-tech/imgs/img_9.png)
+本地打开graphql查询窗口
+http://127.0.0.1:8000/subgraphs/id/QmQVk7YWVwHRhxHvZyqyLxT8Ue4hc2TWtk439xocMeNjZF
+![img.png](friend-tech/imgs/img_10.png)
