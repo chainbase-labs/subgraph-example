@@ -1,0 +1,26 @@
+{
+  "network": "ethereum",
+  "status": "dev",
+  "versions": {
+    "schema": "1.3.0",
+    "subgraph": "1.1.7",
+    "methodology": "1.0.0"
+  },
+  "files": {
+    "template": "uniswap.v2.template.yaml"
+  },
+  "options": {
+    "prepare:yaml": true,
+    "prepare:constants": true
+  },
+  "services": {
+    "hosted-service": {
+      "slug": "uniswap-v2-ethereum",
+      "query-id": "uniswap-v2-ethereum"
+    }
+  },
+  "protocol": "uniswap-v2",
+  "base": "uniswap-forks-v2",
+  "schema": "dex-amm",
+  "deployment": "uniswap-v2-ethereum-v2"
+}
