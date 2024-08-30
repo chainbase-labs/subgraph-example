@@ -1,7 +1,7 @@
 {
-  "mainnet": {
+  "base": {
     "FriendtechSharesV1": {
-      "address": "0xdd9176eA3E7559D6B68b537eF555D3e89403f742",
+      "address": "0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4",
       "startBlock": 2430440
     }
   }

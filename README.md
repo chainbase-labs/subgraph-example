@@ -1,24 +1,24 @@
-# Friend Tech subgraph 开发
+# Friend Tech Subgraph Development
 
 ---
-Friend Tech 项目信息
-- 项目名称：Friend Tech
-- 项目描述：Friend Tech 是一个去中心化社交平台，允许用户将自己代币化。
-- 公链：Base
-- 合约地址： 0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4
-- 网址：https://www.friend.tech
+Friend Tech Project Information
+- Project Name: Friend Tech
+- Project Description: Friend Tech is a decentralized social platform that allows users to tokenize themselves.
+- Blockchain: Base
+- Contract Address: 0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4
+- Website: https://www.friend.tech
 
-### 一、 安装依赖
+### Install Dependencies
 
 ```bash
 yarn add @graphprotocol/graph-cli
 yarn add @graphprotocol/graph-ts
 ```
 
-### 二、 subgraph创建
-### 2.1 下载合约abi文件
-首先我们可以手动下载合约的abi文件到本地，加速创建过程，合约abi地址：https://basescan.org/address/0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4#code
-将abi文件内容写入到ft.json文件中
+### 二、 Subgraph Creation
+### 2.1 Download Contract ABI File
+First, we can manually download the contract's ABI file to our local machine to speed up the creation process. Contract ABI address: https://basescan.org/address/0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4#code
+Write the ABI file content into the ft.json file
 ![img_3.png](friend-tech/imgs/img_3.png)
 ![img_2.png](friend-tech/imgs/img_2.png)
 ```bash
@@ -29,23 +29,23 @@ yarn add @graphprotocol/graph-ts
 ...
 ```
 
-### 2.2 初始化subgraph项目
-首先安装完 graph-cli 工具后，我们在本地创建一个新的目录，然后在终端使用命令graph init初始化一个新的subgraph项目
+### 2.2 Initialize Subgraph Project
+After installing the graph-cli tool, we create a new directory locally, then use the graph init command in the terminal to initialize a new subgraph project
 ![img_1.png](friend-tech/imgs/img_1.png)
-graph cli 客户端会引导你一步步创建，需要自定义的参数会按照不同的客户端版本有所不同，但是大致如下:
+The graph cli client will guide you step by step through the creation process. The parameters that need to be customized may vary depending on the client version, but generally are as follows:
 ```bash
 ➜  tmp graph init
 ✔ Protocol · ethereum
 ✔ Product for which to initialize · subgraph-studio
 ✔ Subgraph slug · friend-tech
 ✔ Directory to create the subgraph in · friend-tech
-✔ Ethereum network · mainnet # evm兼容的公链都可以选mainnet
-✔ Contract address · 0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4 # 合约地址
+✔ Ethereum network · mainnet # EVM-compatible chains can all choose mainnet
+✔ Contract address · 0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4 # Contract address
 ✖ Failed to fetch ABI from Etherscan: request to https://api.etherscan.io/api?module=contract&action=getabi&address=0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4 failed, reason: read ECONNRESET
 ✖ Failed to fetch Start Block: Failed to fetch contract creation transaction hash
 
-✔ ABI file (path) · ./ft.json  # 这里填我们手动下载的abi文件
-✔ Start Block · 2430440 # 合约创建的区块高度
+✔ ABI file (path) · ./ft.json  # Fill in the ABI file we manually downloaded here
+✔ Start Block · 2430440 # Block height where the contract was created
 ✔ Contract Name · Contract
 ✔ Index contract events as entities (Y/n) · true
   Generate subgraph
@@ -53,12 +53,12 @@ graph cli 客户端会引导你一步步创建，需要自定义的参数会按�
 ✔ Create subgraph scaffold
 ✔ Initialize networks config
 ✔ Initialize subgraph repository
-✖ Failed to install dependencies: Command failed: yarn # 有报错不要仅 下面教大家如何解决
+✖ Failed to install dependencies: Command failed: yarn # Don't worry about the error, we'll show you how to solve it below
 ```
-获取合约部署区块高度
+Get the contract deployment block height
 ![img_4.png](friend-tech/imgs/img_4.png)
 ![img_5.png](friend-tech/imgs/img_5.png)
-最后 yarn 或者 npm 会根据初始化流程安装一些具体项目依赖，其中可能会有一个 concat-stream github 仓库版本不存在特定分支feat/smaller的报错，我们可以使用package.json 里面的resolutions 将有问题的分支重定向到我们chainbase的分支：
+Finally, yarn or npm will install some specific project dependencies according to the initialization process. There might be an error about a non-existent feat/smaller branch in the concat-stream GitHub repository. We can use the resolutions in package.json to redirect the problematic branch to our chainbase branch:
 ```json
   "resolutions": {
     "concat-stream": "https://github.com/chainbase-labs/concat-stream#1.4.x"
@@ -66,16 +66,16 @@ graph cli 客户端会引导你一步步创建，需要自定义的参数会按�
 ```
 ![img_6.png](friend-tech/imgs/img_6.png)
 
-最后重新执行一次 yarn 安装确认项目初始化依赖是否正常
+Finally, run yarn install again to confirm that the project initialization dependencies are normal
 ```bash
 yarn && yarn install
 ```
 
-### 2.3 编写subgraph schema
+### 2.3 Write Subgraph Schema
 ![img_7.png](friend-tech/imgs/img_7.png)
-graph init 完成后默认就会为我们自动生成上面的框架代码，只需要修改几个文件就可以达到我们想索引 bayc 合约的目地。接下来让我们一步步了解各个文件的作用，并尝试编写出能索引合约数据的subgraph
+After graph init is completed, it will automatically generate the above framework code for us. We only need to modify a few files to achieve our goal of indexing the BAYC contract. Let's understand the role of each file step by step and try to write a subgraph that can index contract data
 1. subgraph.yaml
-   第一步是需要定义我们的数据源，也就是告诉 subgraph 具体索引什么智能合约，合约地址、网络、abi和索引触发的一些处理器等
+   The first step is to define our data source, which tells the subgraph exactly what smart contract to index, the contract address, network, ABI, and some handlers triggered by indexing
 ```bash
 specVersion: 0.0.5
 schema:
@@ -103,16 +103,16 @@ dataSources:
           handler: handleTrade
       file: ./src/contract.ts
 ```
-The Graph 允许我们在EVM 链上定义三种处理函数：事件处理函数、调用处理函数和块处理函数。详细可以参考：**[Subgraph Manifest](https://github.com/graphprotocol/graph-node/blob/master/docs/subgraph-manifest.md)**
+The Graph allows us to define three types of handler functions on EVM chains: event handlers, call handlers, and block handlers. For details, refer to:：**[Subgraph Manifest](https://github.com/graphprotocol/graph-node/blob/master/docs/subgraph-manifest.md)**
 
-这里核心的处理函数就是eventHandlers，它定义了我们从区块链事件中怎么索引数据。拿Transfer事件举例：
+The core handler function here is eventHandlers, which defines how we index data from blockchain events. Taking the Transfer event as an example:
 
-- 每当一个 NFT 从一个地址转移到另外一个地址时，就会触发此事件。它会记录NFT 的前所有者、新所有者和具体的 NFT TOKEN ID
-- 我们希望能从初始区块开始记录transfer，这样我们就能记录完整的BAYC NFT完整的所有权历史
-- 此外，在后面定义Transfer ID 实体时如果将其标记为不可变，那么查询速度会更快
+- This event is triggered whenever an NFT is transferred from one address to another. It records the previous owner of the NFT, the new owner, and the specific NFT TOKEN ID
+- We want to record transfers from the initial block, so we can record the complete ownership history of BAYC NFTs
+- Additionally, if we mark the Transfer ID entity as immutable when defining it later, the query speed will be faster
 
 2. schema.garphql
-   schema定义了我们需要存储的数据类型，也就是最终存储到 postgresql 的字段，后续也可以通过这些字段来自定义查询语句
+   The schema defines the data types we need to store, which are ultimately stored in postgresql fields. These fields can also be used to customize query statements later
 ```bash
 type Protocol @entity {
   id: ID!
@@ -148,11 +148,11 @@ type Trade @entity {
   supply: BigDecimal!
 }
 ```
-这里有几点需要注意，每个实体需要有 @entity 指令。还需要有一个 ID字段，该字段的唯一值必须适用于所有相同类型的实体。下面是一些常见的数据类型，详细可以参考：类型
+There are a few points to note here. Each entity needs to have an @entity directive. It also needs to have an ID field, whose unique value must apply to all entities of the same type. Below are some common data types, for details refer to: Types
 ![img_8.png](friend-tech/imgs/img_8.png)
 
 3. contract.ts(friendtech-shares-v-1.ts)
-   这个文件是我们的处理器，也就是我们从区块链事件中索引数据的具体逻辑，这里我们只需要关注 handleTrade 函数，它会在每次 Transfer 事件触发时被调用，我们可以在这里定义我们需要索引的数据
+   This file is our handler, which is the specific logic for indexing data from blockchain events. Here we only need to focus on the handleTrade function, which will be called every time a Transfer event is triggered. We can define the data we need to index here
 ```bash
 import { BigDecimal, crypto, BigInt, Bytes } from '@graphprotocol/graph-ts'
 import {
@@ -234,12 +234,12 @@ export function handleTrade(event: TradeEvent): void {
 }
 ```
 
-### 2.3 编译和构建
-到这里，我们已经完整开发完成了一个简单的subgraph，接下来就可以编译我们的代码并且部署 subgraph 。
+### 2.3 Compile and Build
+At this point, we have completed the development of a simple subgraph. Next, we can compile our code and deploy the subgraph.
 
 1. graph codegen
 
-每次修改完subgraph.yaml 和scheme.graphql文件后都要执行 codegen，用来生成generated目录中对应的AssemblyScript文件：
+After modifying the subgraph.yaml and schema.graphql files, we need to execute codegen every time to generate the corresponding AssemblyScript files in the generated directory:
 ```bash
 ➜  friend-tech git:(main) ✗ graph codegen               
   Skip migration: Bump mapping apiVersion from 0.0.1 to 0.0.2
@@ -267,7 +267,7 @@ Types generated successfully
 ```
 
 2. graph build
-将subgraph变成成WebAssembly，等待部署
+   Turn the subgraph into WebAssembly, waiting for deployment
 ```bash
 ➜  friend-tech git:(main) ✗ graph build  
   Skip migration: Bump mapping apiVersion from 0.0.1 to 0.0.2
@@ -289,26 +289,26 @@ Types generated successfully
 Build completed: build/subgraph.yaml
 ```
 
-3. 部署我们的子图
-   启动我们的本地docker实例（注意修改node.toml中的rpc地址，需要api key，如果没有可以到chainbase后台创建）
+3. Deploy our subgraph
+   Start our local docker instance (note to modify the RPC address in node.toml, an API key is required, if you don't have one, you can create it in the chainbase backend)
 
 ```bash
 ➜  cd docker
-➜  vim node.toml(*修改RPC地址*)
+➜  vim node.toml(*modify RPC address*)
 ➜  cd docker-compose up
 ```
-部署成功后，我们稍等几分钟，本都数据库中应该就有我们的索引数据了
+After successful deployment, we wait for a few minutes, and our indexed data should be in the local database
 ![img.png](friend-tech/imgs/img_11.png)
 
-使用另外一个终端，部署我们的子图
+Use another terminal to deploy our subgraph
 ```bash
 cd ../friend-tech 
 yarn create-local
 yarn deploy-local 
 ```
 
-部署成功后，可以在docker运行日志里面看到我们新部署的子图deployment_id
+After successful deployment, you can see the deployment_id of our newly deployed subgraph in the docker running log
 ![img.png](friend-tech/imgs/img_9.png)
-本地打开graphql查询窗口
+Open the GraphQL query window locally
 http://127.0.0.1:8000/subgraphs/id/QmQVk7YWVwHRhxHvZyqyLxT8Ue4hc2TWtk439xocMeNjZF
 ![img.png](friend-tech/imgs/img_10.png)
