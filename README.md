@@ -234,7 +234,7 @@ export function handleTrade(event: TradeEvent): void {
 }
 ```
 
-### 2.3 Compile and Build
+### 2.4 Compile and Build
 At this point, we have completed the development of a simple subgraph. Next, we can compile our code and deploy the subgraph.
 
 1. graph codegen
