@@ -16,7 +16,7 @@ yarn add @graphprotocol/graph-ts
 ```
 
 ### 二、 Subgraph Creation
-### 2.1 Download Contract ABI File
+### 1. Download Contract ABI File
 First, we can manually download the contract's ABI file to our local machine to speed up the creation process. Contract ABI address: https://basescan.org/address/0xCF205808Ed36593aa40a44F10c7f7C2F67d4A4d4#code
 Write the ABI file content into the ft.json file
 ![img_3.png](friend-tech/imgs/img_3.png)
@@ -29,7 +29,7 @@ Write the ABI file content into the ft.json file
 ...
 ```
 
-### 2.2 Initialize Subgraph Project
+### 2. Initialize Subgraph Project
 After installing the graph-cli tool, we create a new directory locally, then use the graph init command in the terminal to initialize a new subgraph project
 ![img_1.png](friend-tech/imgs/img_1.png)
 The graph cli client will guide you step by step through the creation process. The parameters that need to be customized may vary depending on the client version, but generally are as follows:
@@ -71,7 +71,7 @@ Finally, run yarn install again to confirm that the project initialization depen
 yarn && yarn install
 ```
 
-### 2.3 Write Subgraph Schema
+### 3. Write Subgraph Schema
 ![img_7.png](friend-tech/imgs/img_7.png)
 After graph init is completed, it will automatically generate the above framework code for us. We only need to modify a few files to achieve our goal of indexing the BAYC contract. Let's understand the role of each file step by step and try to write a subgraph that can index contract data
 1. subgraph.yaml
@@ -234,7 +234,7 @@ export function handleTrade(event: TradeEvent): void {
 }
 ```
 
-### 2.3 Compile and Build
+### 4. Compile and Build
 At this point, we have completed the development of a simple subgraph. Next, we can compile our code and deploy the subgraph.
 
 1. graph codegen
